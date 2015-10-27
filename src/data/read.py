@@ -1,4 +1,5 @@
 import sys, os, inspect, thread, time
+import models.frame
 
 # get the src and lib directories
 src_dir = os.path.dirname(inspect.getfile(inspect.currentframe()))
@@ -37,17 +38,23 @@ class SampleListener(Leap.Listener):
 
   def on_frame(self, controller):
     frame = controller.frame()
+    myFrame = models.frame.FrameModel(frame)
 
-    for hand in frame.hands:
-      print "Left Hand" if hand.is_left else "Right Hand"
-      print "Palm position:", str(hand.palm_position)
-      print "Palm Normal:", str(hand.palm_normal)
-      print "Dirction:", str(hand.direction)
 
-      print len(hand.fingers)
-      for i,finger in enumerate(hand.fingers):
+    if(len(myFrame.hands) > 0):
+      print str(myFrame.hands[0]['fingers'][0])
+    # print myFrame.hands
 
-        print str(finger.type), str(finger.tip_position)
+    # for hand in frame.hands:
+    #   print "Left Hand" if hand.is_left else "Right Hand"
+    #   print "Palm position:", str(hand.palm_position)
+    #   print "Palm Normal:", str(hand.palm_normal)
+    #   print "Dirction:", str(hand.direction)
+
+    #   print len(hand.fingers)
+    #   for i,finger in enumerate(hand.fingers):
+
+    #     print str(finger.type), str(finger.tip_position)
 
 def main():
   # Create a sample listener and controller
