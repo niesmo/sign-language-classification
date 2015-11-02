@@ -1,6 +1,20 @@
 # sign-language-classification
 Using the Leap Motion, and various algorithms, classifying a limited set of American Sign Language gestures.
 
+# instructions
+## Creating Tables in the Database
+go to `src/data/db` directory and run the `initialize.py` script
+this script will create the tables in the database.
+Note that if those tables already exist in the database, you will get an error
+TODO: fix getting the error if the tables already exist
+
+## Data Gathering
+go to the src directry and run the `data-gathering.py` script.
+You will be prompted to input the information about the person who is doing the experiment (not there now)
+By pressing the `enter` key, the data gathering process starts and will stop in 5 seconds.
+After that, it may take few minutes to input all that data in a database
+
+
 Letters to classify:
   Step 1: A, B, L, X, V, W, Y
   Step 2: I, O
@@ -24,15 +38,3 @@ Data that we need to store:
     c. Extended (boolean)
     d. direction
   7. Frame.hand.SphereRadius
-
-
-
-All:
-  - Data Collection
-
-Sanchit:
-  - Toolkits for the algos
-  - Data collection
-Saurabh:
-  - 
-Nima:
