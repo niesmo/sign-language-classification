@@ -15,6 +15,10 @@ By pressing the `enter` key, the data gathering process starts and will stop in 
 After that, it may take few minutes to input all that data in a database
 
 
+##Gathering Data
+  1. Nima (each letter twice) (Nov 7 around 3-4 pm)
+  1. Saurabh (each letter twice) (Nov 7 around 3-4 pm)
+
 Letters to classify:
   Step 1: A, B, L, X, V, W, Y
   Step 2: I, O

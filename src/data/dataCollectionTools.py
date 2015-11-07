@@ -19,6 +19,7 @@ class DataCollector:
     self.logger.debug("Initializing")
 
     self.data = []
+    self.label = ""
     self.controller = None
     self.listener = None
 
@@ -76,6 +77,6 @@ class DataCollector:
     self.data = []
 
   def setDataLabel(self, letter):
-    self.logger.info("The data collector is collecting info about", letter)
+    self.logger.info("The data collector is collecting info about" + letter)
     
     self.label = letter;

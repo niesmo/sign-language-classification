@@ -23,7 +23,11 @@ def initialize_database_tables():
     handDataQuery += finger + "_direction INTEGER NOT NULL, "
 
   # adding the label
-  handDataQuery += "lable TEXT NOT NULL)"
+  handDataQuery += "lable TEXT NOT NULL, "
+  
+  # adding the timestamp
+  handDataQuery += "timestamp TEXT NOT NULL )"
+
   print handDataQuery
 
   coordinateQuery = "CREATE TABLE Coordinate "

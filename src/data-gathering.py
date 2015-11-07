@@ -2,9 +2,6 @@ import sys, os, inspect, time
 import data.dataCollectionTools
 import ConfigParser
 
-
-
-
 # get the src and other directories
 curr_dir = os.path.dirname(inspect.getfile(inspect.currentframe()))
 config_file = os.path.abspath(os.path.join(curr_dir, 'config/config.conf'))
@@ -39,7 +36,7 @@ def main():
   dataCollector = data.dataCollectionTools.DataCollector.Instance()
 
   # tell the data collector what letter its collecting
-  # dataCollector.setDataLabel(letter);
+  dataCollector.setDataLabel(letter);
 
   # start collecting data
   dataCollector.start()

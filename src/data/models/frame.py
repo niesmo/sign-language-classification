@@ -1,6 +1,8 @@
 import sqlite3 as lite
 import sys, os, inspect, thread, time, logging
 import ConfigParser
+import datetime
+
 
 
 # get the src and other directories
@@ -43,6 +45,9 @@ class FrameModel:
     if len(self.hands) > 1:
       self.logger.warning("There are more than one hand in the frame. There are", len(self.hands), "hands")
 
+    # getting the timestamp
+    now = datetime.datetime.now()
+
 
     '''
     0 -> confidence
@@ -62,7 +67,7 @@ class FrameModel:
     valuesPlaceholdersArray = ['{'+str(i)+'}' for i in range(41)]
     valuesPlaceholders = ", ".join(valuesPlaceholdersArray)
 
-    query = "INSERT INTO HandData VALUES(null, "+valuesPlaceholders+", '" + label +"')"
+    query = "INSERT INTO HandData VALUES(null, "+valuesPlaceholders+", '" + label +"', '"+ str(now) +"')"
 
     # In the Data Collector, decide whether to even call save when
     # there is more than one hand
