@@ -2,11 +2,15 @@
 Using the Leap Motion, and various algorithms, classifying a limited set of American Sign Language gestures.
 
 # instructions
+## Installing the Progressbar
+go to `lib/progressbar` directory and run python setup.py install
+
 ## Creating Tables in the Database
 go to `src/data/db` directory and run the `initialize.py` script
 this script will create the tables in the database.
 Note that if those tables already exist in the database, you will get an error
 TODO: fix getting the error if the tables already exist
+
 
 ## Data Gathering
 go to the src directry and run the `data-gathering.py` script.
