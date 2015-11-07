@@ -34,7 +34,7 @@ class FrameModel:
   '''
   This function will simply save this object in to the database
   '''
-  def save(self):
+  def save(self, label):
     # dont bother is there is no hand in the frame
     if len(self.hands) == 0:
       return
@@ -62,7 +62,7 @@ class FrameModel:
     valuesPlaceholdersArray = ['{'+str(i)+'}' for i in range(41)]
     valuesPlaceholders = ", ".join(valuesPlaceholdersArray)
 
-    query = "INSERT INTO HandData VALUES(null, "+valuesPlaceholders+")"
+    query = "INSERT INTO HandData VALUES(null, "+valuesPlaceholders+", '" + label +"')"
 
     # In the Data Collector, decide whether to even call save when
     # there is more than one hand

@@ -3,6 +3,8 @@ import data.dataCollectionTools
 import ConfigParser
 
 
+
+
 # get the src and other directories
 curr_dir = os.path.dirname(inspect.getfile(inspect.currentframe()))
 config_file = os.path.abspath(os.path.join(curr_dir, 'config/config.conf'))
@@ -20,17 +22,24 @@ There will be a timer on the console that shows how much time there is left
 At the end, it would show some stats about the data that was recorded -- many the count or the average of the confidence 
 '''
 def main():
+  # getting the configs
   dataCollectionDuration = Config.get("data_gathering", "data_collection_duration")
 
   # get the persons information
   getDemographicInformation()
 
+  # get the letter that the user is making the hand gesture for
+  letter = getLetter();
+
   print "Press Enter when you are ready to start the experiment"
   print "This process will take " + str(dataCollectionDuration) + " seconds. Keep your hand steady :)"
   sys.stdin.readline()
-
+  
   # get the data collector and start the session
   dataCollector = data.dataCollectionTools.DataCollector.Instance()
+
+  # tell the data collector what letter its collecting
+  # dataCollector.setDataLabel(letter);
 
   # start collecting data
   dataCollector.start()
@@ -50,6 +59,13 @@ def main():
 def getDemographicInformation():
   print "Getting demographics"
   return
+
+def getLetter():
+  letter = raw_input("Please enter the letter you are inputing the data for: (A, B, L, X, V, W, Y)")
+
+  # todo: Do some checking
+  return letter
+
 
 
 if __name__ == "__main__":

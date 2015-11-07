@@ -52,7 +52,7 @@ class DataCollector:
     self.logger.info("length of the data is: " + str(len(self.data)))
     for frame in self.data:
       # save the frame in the data base
-      frame.save()
+      frame.save(self.label)
 
 
   """
@@ -74,3 +74,8 @@ class DataCollector:
 
     del self.data[:]
     self.data = []
+
+  def setDataLabel(self, letter):
+    self.logger.info("The data collector is collecting info about", letter)
+    
+    self.label = letter;

@@ -22,10 +22,8 @@ def initialize_database_tables():
     handDataQuery += finger + "_is_extended INTEGER, " # sqlite does not have bools
     handDataQuery += finger + "_direction INTEGER NOT NULL, "
 
-  # Remove the last comma
-  handDataQuery = handDataQuery[:-2]
-  handDataQuery += ")"
-
+  # adding the label
+  handDataQuery += "lable TEXT NOT NULL)"
   print handDataQuery
 
   coordinateQuery = "CREATE TABLE Coordinate "
