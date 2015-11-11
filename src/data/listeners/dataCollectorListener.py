@@ -2,7 +2,7 @@ import sys, os, inspect, thread, time, logging
 
 # get the src and other directories
 curr_dir = os.path.dirname(inspect.getfile(inspect.currentframe()))
-lib_dir = os.path.abspath(os.path.join(curr_dir, '../../../lib'))
+lib_dir = os.path.abspath(os.path.join(curr_dir, '../../../lib/leap'))
 db_dir = os.path.abspath(os.path.join(curr_dir, '../db'))
 
 # including the lib and the models folder to be able to import the lib and models dir

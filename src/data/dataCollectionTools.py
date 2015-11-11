@@ -3,13 +3,15 @@ import listeners.dataCollectorListener as dcl
 
 # get the src and lib directories
 curr_dir = os.path.dirname(inspect.getfile(inspect.currentframe()))
-lib_dir = os.path.abspath(os.path.join(curr_dir, '../../lib'))
+lib_dir = os.path.abspath(os.path.join(curr_dir, '../../lib/leap'))
 
 # including the lib folder to be able to import the lib dir
 sys.path.insert(0, lib_dir)
 
 import Leap
 import util.singleton as utilily
+
+from progressbar import Bar, Percentage, ProgressBar
 
 
 @utilily.Singleton
@@ -51,10 +53,18 @@ class DataCollector:
 
     
     self.logger.info("length of the data is: " + str(len(self.data)))
-    for frame in self.data:
+
+    # setting the progress bar
+    pbar = ProgressBar(widgets=[Percentage(), Bar()], maxval=len(self.data)).start()
+
+    # saving the rows
+    for i,frame in enumerate(self.data):
       # save the frame in the data base
       frame.save(self.label)
 
+      # update the progress bar
+      pbar.update(i)
+      
 
   """
   This function adds the frame passed into the method
