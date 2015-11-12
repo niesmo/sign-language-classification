@@ -5,20 +5,23 @@ import math, collections
 
 from sklearn.cluster import KMeans
 from sklearn import datasets
-# TESTING
-from sklearn.datasets import load_digits
-from sklearn.preprocessing import scale
 
 curr_dir = os.path.dirname(inspect.getfile(inspect.currentframe()))
 db_file = os.path.abspath(os.path.join(curr_dir, '../data/db/data.db'))
 
+# global data files
 testingData = []
 testingDataLabels = []
 
 trainingData = []
 trainingDataLabels = []
 
+# defining the logger
+logger = logging.getLogger("K-Means Algorithm")
+
 def loadData(queryFilename):
+  logger.debug("Openning the query file " + queryFilename)
+
   # load in the query file
   query = ""
   queryFile = open("../data/db/queries/"+ queryFilename +".sql")
@@ -31,10 +34,14 @@ def loadData(queryFilename):
   query += " WHERE confidence > 0.85"
   magic = 2303
 
+
+  logger.debug("Openning the database connection")
   # query the data base
   connection = lite.connect(db_file)
   with connection:
     cursor = connection.cursor()
+
+    logger.debug("Executing the query")
     cursor.execute(query)
 
     rows = cursor.fetchall()
@@ -55,24 +62,21 @@ def loadData(queryFilename):
   print "TESTING", len(testingData)
 
 def preProcess():
-  pass
+  logger.info("pre-processing the data ...")
+  return
 
 def main():
+  logger.info("main function: defining the k-means estimator")
   kmeans = KMeans(n_clusters=6, init='k-means++', n_init=10, max_iter=300, tol=0.0001, precompute_distances='auto', verbose=0, random_state=None, copy_x=True, n_jobs=1)
-  kmeans.fit(trainingData, trainingDataLabels)
+
+  logger.info("Running k-means for " + str(len(trainingData)) + " data points")
+  kmeans.fit(trainingData)
+  logger.info("Finished running k-means")
 
 
-  print "\n\nDistribution of Training Results"; print 50 * '-'
+  print "\n\nDistribution of Training labels"; print 50 * '-'
   counter=collections.Counter(kmeans.labels_)
   print counter
-
-  # I had to hard code these values, I havent found a way to give the scipy all the labels
-  labels = {
-    0: 'L',
-    2: 'V',
-    3: 'Y',
-    4: 'W',
-  }
 
   print "\n\nDistribution of Test Data"; print 50 * '-'
   counter=collections.Counter(testingDataLabels)
