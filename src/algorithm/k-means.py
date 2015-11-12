@@ -80,10 +80,11 @@ def main():
   
   testResults = kmeans.predict(testingData)
 
-  print "\n\Test Results after running k-means"; print 50 * '-'
+  print "\n\nTest Results after running k-means"; print 50 * '-'
   counter=collections.Counter(testResults)
   print counter
 
+  print
   for i, d in enumerate(testResults[:10]):
     print d, testingDataLabels[i]
 
