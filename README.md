@@ -1,6 +1,11 @@
 # sign-language-classification
 Using the Leap Motion, and various algorithms, classifying a limited set of American Sign Language gestures.
 
+## Meeting with Eric (12 Nov, 2015)
+* He mentioned to use PCA and LDA for reducing the number of dimentions
+* he mentioned not using all the data points that we get from the Leap and instead average all those points to one points
+
+
 # instructions
 ## Installing the Progressbar
 go to `lib/progressbar` directory and run python setup.py install
