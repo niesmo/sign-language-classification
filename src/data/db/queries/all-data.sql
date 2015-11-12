@@ -1,6 +1,8 @@
 SELECT 
   a.id,
   a.lable,
+  a.hand_sphere_radius,
+   
   b.x 'palm_position_x', 
   b.y 'palm_position_y', 
   b.z 'palm_position_z', 
@@ -16,8 +18,6 @@ SELECT
   e.x 'wrist_position_x', 
   e.y 'wrist_position_y', 
   e.z 'wrist_position_z', 
-
-  -- f.x 'hand_sphere_radius', 
 
   g.x 'thumb_tip_position_x', 
   g.y 'thumb_tip_position_y', 
