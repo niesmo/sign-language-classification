@@ -51,7 +51,7 @@ def main():
   # sys.stdin.readline()
 
   # Stop the data collector which will store the data in the database
-  dataCollector.stop()
+  dataCollector.stopAndSave()
 
 def getDemographicInformation():
   print "Getting demographics"
