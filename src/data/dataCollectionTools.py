@@ -43,16 +43,25 @@ class DataCollector:
     
 
   '''
-  This function will stop the data collector and will store the data in the database
-  The buffer of the Listener is also cleared by the end of this function
+  This function will stop the data collector
+  this function will also retruns all the data in the buffer
   '''
   def stop(self):
     self.logger.info("Stopping the Data Collection, removing the Listener, and starting to insert the data to DB")
     # removing the data collection listener
     self.controller.remove_listener(self.listener)
 
-    
     self.logger.info("length of the data is: " + str(len(self.data)))
+
+    return self.data
+
+
+  '''
+  This function will stop the data collector and will store the data in the database
+  The buffer of the Listener is also cleared by the end of this function
+  '''
+  def stopAndSave(self):
+    self.stop();
 
     # setting the progress bar
     pbar = ProgressBar(widgets=[Percentage(), Bar()], maxval=len(self.data)).start()
@@ -64,7 +73,9 @@ class DataCollector:
 
       # update the progress bar
       pbar.update(i)
-      
+
+    # clearing the buffer
+    self.clearData()
 
   """
   This function adds the frame passed into the method

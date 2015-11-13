@@ -19,7 +19,7 @@ SELECT
   e.y 'wrist_position_y', 
   e.z 'wrist_position_z', 
 
-  (g.x - b.x) 'relative_thumb_tip_position_x', 
+  (g.x - b.x) 'thumb_tip_position_x', 
   (g.y - b.y) 'thumb_tip_position_y', 
   (g.z - b.z) 'thumb_tip_position_z', 
 
