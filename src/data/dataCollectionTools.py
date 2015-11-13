@@ -47,7 +47,7 @@ class DataCollector:
   this function will also retruns all the data in the buffer
   '''
   def stop(self):
-    self.logger.info("Stopping the Data Collection, removing the Listener, and starting to insert the data to DB")
+    self.logger.info("Stopping the Data Collection and removing the Listener")
     # removing the data collection listener
     self.controller.remove_listener(self.listener)
 
@@ -63,6 +63,8 @@ class DataCollector:
   def stopAndSave(self):
     self.stop();
 
+    self.logger.info("Starting to insert the data to DB")
+    
     # setting the progress bar
     pbar = ProgressBar(widgets=[Percentage(), Bar()], maxval=len(self.data)).start()
 

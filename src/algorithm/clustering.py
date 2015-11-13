@@ -74,6 +74,7 @@ class KMeansAlgo:
         print letter + " -> " + str(resultFrequency[label] * 100 / float(len(self.testingData))) + "%"
 
     print resultFrequency
+    return resultFrequency
 
   def preProcess(self):
     self.logger.debug("Pre-processing the data")
