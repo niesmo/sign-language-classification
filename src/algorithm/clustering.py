@@ -21,14 +21,30 @@ class KMeansAlgo:
 
     # pre process the data
     self.preProcess()
-
     
   def cluster(self):
     self.logger.info("Starting clustering the data using K-Means")
-    self.kmeans.fit(self.trainingData)
+
 
     # find the mapping between clusters and labels
-    self.mapLabelsToLetters()
+    mappingIsDistinct = True
+    
+    while mappingIsDistinct:
+      tempDict = {}
+
+      self.kmeans.fit(self.trainingData)
+      self.mapLabelsToLetters()
+
+      for letter in self.letterToLabelMap:
+        label = self.letterToLabelMap[letter]
+
+        if not tempDict.has_key(label):
+          tempDict[label] = True
+        else:
+          mappingIsDistinct = False
+          break;
+
+      mappingIsDistinct = not mappingIsDistinct
 
   def mapLabelsToLetters(self):
     knownPoints = {}
@@ -67,7 +83,9 @@ class KMeansAlgo:
   def report(self):
     # print self.letterToLabelMap
     resultFrequency = collections.Counter(self.results)
-    
+
+    print "MAP: ", self.letterToLabelMap
+
     for letter in self.letterToLabelMap:
       label = self.letterToLabelMap[letter]
       if resultFrequency.has_key(label):
