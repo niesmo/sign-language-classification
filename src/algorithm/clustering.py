@@ -97,5 +97,3 @@ class KMeansAlgo:
   def preProcess(self):
     self.logger.debug("Pre-processing the data")
     return
-
-
