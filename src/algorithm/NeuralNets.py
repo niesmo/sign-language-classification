@@ -39,7 +39,6 @@ def loaddata(filename,classes):
 		# temp._convertToOneOfMany()
 	return temp
 
-
 def train(filename,classes,hiddenlayers,epochs):
 	# load training data
 	trndata = ClassificationDataSet(103, 1, nb_classes=classes)
@@ -80,7 +79,6 @@ def test(filename,classes,trainer,net):
 	out = net.activateOnDataset(tstdata).argmax(axis=1)
 	print out
 	print("\non test data",percentError( out, tstdata['class'] ))
-
 
 trainer, net = train("testdata_xvwy.csv",4,10,50)
 test("testdata_xvwy.csv",4,trainer,net)
