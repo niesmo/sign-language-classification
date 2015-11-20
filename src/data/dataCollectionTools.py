@@ -1,4 +1,4 @@
-import sys, os, inspect, thread, time, logging
+import sys, os, inspect, thread, time, logging, uuid
 import listeners.dataCollectorListener as dcl
 
 # get the src and lib directories
@@ -68,10 +68,11 @@ class DataCollector:
     # setting the progress bar
     pbar = ProgressBar(widgets=[Percentage(), Bar()], maxval=len(self.data)).start()
 
+    tempUuid = str(uuid.uuid4())
     # saving the rows
     for i,frame in enumerate(self.data):
       # save the frame in the data base
-      frame.save(self.label)
+      frame.save(self.label, tempUuid)
 
       # update the progress bar
       pbar.update(i)

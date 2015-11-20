@@ -1,4 +1,4 @@
-import sys, os, inspect, logging
+import sys, os, inspect, logging, pickle
 import collections, numpy
 
 from sklearn.cluster import KMeans
@@ -15,7 +15,7 @@ class KMeansAlgo:
     self.testingData = []
 
     # initializing the k-means algorithm
-    self.kmeans = KMeans(n_clusters=self.clusterCount, init='k-means++', n_init=10, max_iter=300, tol=0.0001, precompute_distances='auto', verbose=0, random_state=None, copy_x=True, n_jobs=1)
+    self.kmeans = KMeans(n_clusters=self.clusterCount, init='k-means++', n_init=10, max_iter=300, tol=0.0001, precompute_distances='auto', verbose=0, random_state=None, copy_x=True, n_jobs=8)
     self.letterToLabelMap = {}
     self.results = []
 
@@ -24,7 +24,6 @@ class KMeansAlgo:
     
   def cluster(self):
     self.logger.info("Starting clustering the data using K-Means")
-
 
     # find the mapping between clusters and labels
     mappingIsDistinct = True
@@ -97,3 +96,39 @@ class KMeansAlgo:
   def preProcess(self):
     self.logger.debug("Pre-processing the data")
     return
+
+  ''' 
+  This function will store the k-means object in a file and later will store it
+  in the `trainedModels/k-means` directory
+  '''
+  def storeModel(self):
+    curr_dir = os.path.dirname(inspect.getfile(inspect.currentframe()))
+    trainedModelsKmeansDir = os.path.abspath(os.path.join(curr_dir, '../trainedModels/K-Means'))
+
+
+    # opening the files for the pickles
+    pickleFileKmeans = open(trainedModelsKmeansDir + '/kmeans.pkl', 'wb')
+    pickleFileLetterToLabel = open(trainedModelsKmeansDir + '/letterToLabel.pkl', 'wb')
+        
+    #pickleit
+    pickle.dump(self.kmeans, pickleFileKmeans)
+    pickle.dump(self.letterToLabelMap, pickleFileLetterToLabel)
+    
+    # closing the files
+    pickleFileKmeans.close()
+    pickleFileLetterToLabel.close()
+  
+  '''
+  This function will get the k-means object from the file and will return
+  '''
+  def retrieveModel(self):
+    curr_dir = os.path.dirname(inspect.getfile(inspect.currentframe()))
+    trainedModelsKmeansDir = os.path.abspath(os.path.join(curr_dir, '../trainedModels/K-Means'))
+
+    # opening the files for the pickles
+    pickleFileKmeans = open(trainedModelsKmeansDir + '/kmeans.pkl', 'rb')
+    pickleFileLetterToLabel = open(trainedModelsKmeansDir + '/letterToLabel.pkl', 'rb')
+
+    self.kmeans = pickle.load(pickleFileKmeans)
+    self.letterToLabelMap = pickle.load(pickleFileLetterToLabel)
+  

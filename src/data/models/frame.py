@@ -4,7 +4,6 @@ import ConfigParser
 import datetime
 
 
-
 # get the src and other directories
 curr_dir = os.path.dirname(inspect.getfile(inspect.currentframe()))
 lib_dir = os.path.abspath(os.path.join(curr_dir, '../../../lib'))
@@ -36,7 +35,7 @@ class FrameModel:
   '''
   This function will simply save this object in to the database
   '''
-  def save(self, label):
+  def save(self, label, uuid):
     # dont bother is there is no hand in the frame
     if len(self.hands) == 0:
       return
@@ -47,7 +46,6 @@ class FrameModel:
 
     # getting the timestamp
     now = datetime.datetime.now()
-
 
     '''
     0 -> confidence
@@ -67,7 +65,7 @@ class FrameModel:
     valuesPlaceholdersArray = ['{'+str(i)+'}' for i in range(41)]
     valuesPlaceholders = ", ".join(valuesPlaceholdersArray)
 
-    query = "INSERT INTO HandData VALUES(null, "+valuesPlaceholders+", '" + label +"', '"+ str(now) +"')"
+    query = "INSERT INTO HandData VALUES(null, "+valuesPlaceholders+", '" + label +"', '"+ str(now) +"', '" + uuid + "')"
 
     # In the Data Collector, decide whether to even call save when
     # there is more than one hand
