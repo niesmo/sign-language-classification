@@ -39,8 +39,9 @@ def loadTrainingData(queryFilename):
   for l in queryFile:
     query += l
 
-  # add the confidence in the query
-  query += " WHERE confidence >" + str(confidency)
+  # add the confidence and id in the query
+  MAGIC = 4234
+  query += " WHERE a.id < " + str(MAGIC) + " AND confidence >" + str(confidency)
 
   logger.debug("Openning the database connection")
 
@@ -145,7 +146,10 @@ def main():
   kmeans = KMeansAlgo(trainingData, trainingDataLabels, NUMBER_OF_CLUSTERS)
 
   # cluster the training data
-  kmeans.cluster()
+  # kmeans.cluster()
+
+  # store the model in the files
+  kmeans.retrieveModel()
 
   # get the data from leap
   dataCollectionDuration = Config.get("data_gathering", "data_collection_duration")

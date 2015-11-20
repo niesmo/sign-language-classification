@@ -102,17 +102,33 @@ class KMeansAlgo:
   in the `trainedModels/k-means` directory
   '''
   def storeModel(self):
-
-    pickleFile = open('../trainedModels/K-Means/kmeans.pkl', 'wb')
-    
-
-    myA.printMe()
+    curr_dir = os.path.dirname(inspect.getfile(inspect.currentframe()))
+    trainedModelsKmeansDir = os.path.abspath(os.path.join(curr_dir, '../trainedModels/K-Means'))
 
 
+    # opening the files for the pickles
+    pickleFileKmeans = open(trainedModelsKmeansDir + '/kmeans.pkl', 'wb')
+    pickleFileLetterToLabel = open(trainedModelsKmeansDir + '/letterToLabel.pkl', 'wb')
+        
     #pickleit
-    pickle.dump(myA, output)
-    output.close()
+    pickle.dump(self.kmeans, pickleFileKmeans)
+    pickle.dump(self.letterToLabelMap, pickleFileLetterToLabel)
+    
+    # closing the files
+    pickleFileKmeans.close()
+    pickleFileLetterToLabel.close()
+  
   '''
   This function will get the k-means object from the file and will return
   '''
   def retrieveModel(self):
+    curr_dir = os.path.dirname(inspect.getfile(inspect.currentframe()))
+    trainedModelsKmeansDir = os.path.abspath(os.path.join(curr_dir, '../trainedModels/K-Means'))
+
+    # opening the files for the pickles
+    pickleFileKmeans = open(trainedModelsKmeansDir + '/kmeans.pkl', 'rb')
+    pickleFileLetterToLabel = open(trainedModelsKmeansDir + '/letterToLabel.pkl', 'rb')
+
+    self.kmeans = pickle.load(pickleFileKmeans)
+    self.letterToLabelMap = pickle.load(pickleFileLetterToLabel)
+  
