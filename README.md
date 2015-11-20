@@ -54,8 +54,11 @@ Data that we need to store:
 
 
 ## NEXT STEPS
+@ DONE:
+  * storing the models for K-Means
+
 @ IN PROGRESS:
-  * Storing the trained units and K-Means (the network) in the disk somewhere
+  * Storing the trained units (the network) in the disk somewhere
   * Include more alphabets
   * Reading from DB in NN
   * Make the code so that you can decide how many letter to train on (flexible for more letters in the future)

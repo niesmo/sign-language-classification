@@ -150,6 +150,7 @@ def main():
 
   # store the model in the files
   kmeans.retrieveModel()
+  # kmeans.storeModel()
 
   # get the data from leap
   dataCollectionDuration = Config.get("data_gathering", "data_collection_duration")
