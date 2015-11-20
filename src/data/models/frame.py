@@ -2,7 +2,7 @@ import sqlite3 as lite
 import sys, os, inspect, thread, time, logging
 import ConfigParser
 import datetime
-
+import uuid
 
 
 # get the src and other directories
@@ -48,6 +48,9 @@ class FrameModel:
     # getting the timestamp
     now = datetime.datetime.now()
 
+    tempuid = str(uuid.uuid4())
+
+
 
     '''
     0 -> confidence
@@ -67,7 +70,7 @@ class FrameModel:
     valuesPlaceholdersArray = ['{'+str(i)+'}' for i in range(41)]
     valuesPlaceholders = ", ".join(valuesPlaceholdersArray)
 
-    query = "INSERT INTO HandData VALUES(null, "+valuesPlaceholders+", '" + label +"', '"+ str(now) +"')"
+    query = "INSERT INTO HandData VALUES(null, "+valuesPlaceholders+", '" + label +"', '"+ str(now) +"', '" + tempuid + "')"
 
     # In the Data Collector, decide whether to even call save when
     # there is more than one hand
