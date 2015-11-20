@@ -54,17 +54,21 @@ Data that we need to store:
 
 
 ## NEXT STEPS
-* SVM (ask Eric if its good)
-* Experimenting with different configurations on NN and K-means
-* User interface
-* Include more alphabets
-* Make the code so that you can decide how many letter to train on (flexible for more letters in the future)
-* Reading from DB in NN
-* Storing the trained units (the network) in the disk somewhere
-* Reading in from leap and live outputting the result
-* Learning from mistakes (at the end it asks if the prediction was correct. if not train again based on that) (NN) (Admin Only)
-* Aggregating the input from Leap into ONE record (result in more variation in the data)
-* Predicting letter serquences form words and setences (something like autocorrect/autofill in there too)
+@ IN PROGRESS:
+  * Storing the trained units and K-Means (the network) in the disk somewhere
+  * Include more alphabets
+  * Reading from DB in NN
+  * Make the code so that you can decide how many letter to train on (flexible for more letters in the future)
+
+@ TODO:
+  * Comparison of the Test with the Result in NN (for output -- our visualization)
+  * Aggregating the input from Leap into ONE record (result in more variation in the data)
+  * SVM (ask Eric if its good)
+  * Experimenting with different configurations on NN and K-means
+  * User interface
+  * Reading in from leap and live outputting the result (For NN)
+  * Learning from mistakes (at the end it asks if the prediction was correct. if not train again based on that) (NN) (Admin Only)
+  * Predicting letter sequences form words and setences (something like autocorrect/autofill in there too)
 
 
 ## REPORT

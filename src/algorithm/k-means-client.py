@@ -5,6 +5,7 @@ import math, collections, numpy
 
 from sklearn.cluster import KMeans
 from sklearn import datasets
+from sklearn.decomposition import PCA
 
 NUMBER_OF_CLUSTERS = 7
 CONFIDENCY_PERCENT = 0.0
@@ -80,6 +81,9 @@ def preProcess():
 def main():
   logger.info("main function: defining the k-means estimator")
   kmeans = KMeans(n_clusters=NUMBER_OF_CLUSTERS, init='k-means++', n_init=10, max_iter=300, tol=0.0001, precompute_distances='auto', verbose=0, random_state=None, copy_x=True, n_jobs=1)
+
+  # PCA 
+  
 
   logger.info("Running k-means for " + str(len(trainingData)) + " data points")
   kmeans.fit(trainingData)

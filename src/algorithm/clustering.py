@@ -1,4 +1,4 @@
-import sys, os, inspect, logging
+import sys, os, inspect, logging, pickle
 import collections, numpy
 
 from sklearn.cluster import KMeans
@@ -15,7 +15,7 @@ class KMeansAlgo:
     self.testingData = []
 
     # initializing the k-means algorithm
-    self.kmeans = KMeans(n_clusters=self.clusterCount, init='k-means++', n_init=10, max_iter=300, tol=0.0001, precompute_distances='auto', verbose=0, random_state=None, copy_x=True, n_jobs=1)
+    self.kmeans = KMeans(n_clusters=self.clusterCount, init='k-means++', n_init=10, max_iter=300, tol=0.0001, precompute_distances='auto', verbose=0, random_state=None, copy_x=True, n_jobs=8)
     self.letterToLabelMap = {}
     self.results = []
 
@@ -24,7 +24,6 @@ class KMeansAlgo:
     
   def cluster(self):
     self.logger.info("Starting clustering the data using K-Means")
-
 
     # find the mapping between clusters and labels
     mappingIsDistinct = True
@@ -97,3 +96,23 @@ class KMeansAlgo:
   def preProcess(self):
     self.logger.debug("Pre-processing the data")
     return
+
+  ''' 
+  This function will store the k-means object in a file and later will store it
+  in the `trainedModels/k-means` directory
+  '''
+  def storeModel(self):
+
+    pickleFile = open('../trainedModels/K-Means/kmeans.pkl', 'wb')
+    
+
+    myA.printMe()
+
+
+    #pickleit
+    pickle.dump(myA, output)
+    output.close()
+  '''
+  This function will get the k-means object from the file and will return
+  '''
+  def retrieveModel(self):
