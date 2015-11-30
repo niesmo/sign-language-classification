@@ -1,8 +1,9 @@
 import sqlite3 as lite
+import argparse
 
-def initialize_database_tables():
+def initialize_database_tables(dbFileName):
   fingers = ["thumb", "index", "middle", "ring", "pinky"]
-  connection = lite.connect('data.db')
+  connection = lite.connect(dbFileName)
 
   handDataQuery = "CREATE TABLE HandData "
   handDataQuery += "( id INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -26,7 +27,10 @@ def initialize_database_tables():
   handDataQuery += "lable TEXT NOT NULL, "
   
   # adding the timestamp
-  handDataQuery += "timestamp TEXT NOT NULL )"
+  handDataQuery += "timestamp TEXT NOT NULL, "
+
+  # adding the attempt id
+  handDataQuery += "attemptID TEXT NOT NULL )"
 
   print handDataQuery
 
@@ -44,4 +48,10 @@ def initialize_database_tables():
     cursor.execute(coordinateQuery);
 
 if __name__ == "__main__":
-  initialize_database_tables()
+  parser = argparse.ArgumentParser(description='Initialization of the database tables')
+  parser.add_argument('-d', default='data.db' ,action='store', dest='dbFileName')
+
+  args = parser.parse_args()
+  dbFileName = args.dbFileName
+
+  initialize_database_tables(dbFileName)

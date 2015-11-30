@@ -22,6 +22,7 @@ class DataCollector:
 
     self.data = []
     self.label = ""
+    self.dbName = None
     self.controller = None
     self.listener = None
 
@@ -71,6 +72,9 @@ class DataCollector:
     tempUuid = str(uuid.uuid4())
     # saving the rows
     for i,frame in enumerate(self.data):
+      # setting the database name for the frame to save the data
+      frame.setDbName(self.dbName)
+
       # save the frame in the data base
       frame.save(self.label, tempUuid)
 
@@ -104,3 +108,8 @@ class DataCollector:
     self.logger.info("The data collector is collecting info about" + letter)
     
     self.label = letter;
+
+  def setTargetDatabase(self, db):
+    self.logger.info("The data collector will be storing data in " + db + " database")
+
+    self.dbName = db;

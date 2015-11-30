@@ -7,7 +7,7 @@ import datetime
 # get the src and other directories
 curr_dir = os.path.dirname(inspect.getfile(inspect.currentframe()))
 lib_dir = os.path.abspath(os.path.join(curr_dir, '../../../lib'))
-db_file = os.path.abspath(os.path.join(curr_dir, '../db/data.db'))
+db_dir = os.path.abspath(os.path.join(curr_dir, '../db'))
 config_file = os.path.abspath(os.path.join(curr_dir, '../../config/config.conf'))
 
 
@@ -29,8 +29,14 @@ class FrameModel:
     # Save the frame as a property of this class
     self.frame = frame
 
+    # database name
+    self.dbName = None
+
     # serialized the data into private properties of this model
     self.serialize()
+
+  def setDbName(self, name):
+    self.dbName = name;
 
   '''
   This function will simply save this object in to the database
@@ -137,7 +143,7 @@ class FrameModel:
       pinkyFingerRowIds[6], # direction
     );
 
-    connection = lite.connect(db_file)
+    connection = lite.connect(os.path.join(db_dir, self.dbName))
     with connection:
       cursor = connection.cursor()
       cursor.execute(query)
@@ -152,7 +158,7 @@ class FrameModel:
     query = "INSERT INTO Coordinate VALUES(null, {0}, {1}, {2})"
     query = query.format(str(coordinate[0]), str(coordinate[1]), str(coordinate[2]))
 
-    connection = lite.connect(db_file)
+    connection = lite.connect(os.path.join(db_dir, self.dbName))
     with connection:
       cursor = connection.cursor()
       cursor.execute(query)

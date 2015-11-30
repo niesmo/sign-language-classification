@@ -18,10 +18,11 @@ TODO: fix getting the error if the tables already exist
 
 
 ## Data Gathering
-go to the src directry and run the `data-gathering.py` script.
-You will be prompted to input the information about the person who is doing the experiment (not there now)
-By pressing the `enter` key, the data gathering process starts and will stop in 5 seconds.
-After that, it may take few minutes to input all that data in a database
+Just run this command
+python data-gathering.py --db <DB_FILE_NAME> --duration <DATA_COLLECTION_DURATION> -l <LETTER>
+
+DB_FILE_NAME must be already initialized using the `initialize.py` script which can be run using this command:
+python initialize.py -d <DB_FILE_NAME>
 
 
 ##Gathering Data
@@ -29,7 +30,7 @@ After that, it may take few minutes to input all that data in a database
   1. Saurabh (each letter twice) (Nov 7 around 3-4 pm)
 
 Letters to classify:
-  Step 1: A, B, L, X, V, W, Y
+  Step 1: A, B, L, X, V, W, Y, C, E
   Step 2: I, O
 
 For data collection:

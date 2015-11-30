@@ -2,6 +2,7 @@ import sqlite3 as lite
 import sys, os, inspect, logging, time
 import collections
 import ConfigParser
+import argparse
 
 from algorithm.clustering import KMeansAlgo
 from data.dataCollectionTools import DataCollector
@@ -40,7 +41,7 @@ def loadTrainingData(queryFilename):
     query += l
 
   # add the confidence and id in the query
-  MAGIC = 4234
+  MAGIC = 100000
   query += " WHERE a.id < " + str(MAGIC) + " AND confidence >" + str(confidency)
 
   logger.debug("Openning the database connection")
@@ -141,16 +142,23 @@ def preProcessTestingData(data):
     
   return preprocessedData
 
-def main():
-  NUMBER_OF_CLUSTERS = 7
-  kmeans = KMeansAlgo(trainingData, trainingDataLabels, NUMBER_OF_CLUSTERS)
+def main(isTraining):
+  if isTraining:
+    NUMBER_OF_CLUSTERS = 10
+    kmeans = KMeansAlgo(trainingData, trainingDataLabels, NUMBER_OF_CLUSTERS)
 
-  # cluster the training data
-  # kmeans.cluster()
+    # cluster the training data
+    kmeans.cluster()
+    # store the model in the files
+    kmeans.storeModel()
 
-  # store the model in the files
-  kmeans.retrieveModel()
-  # kmeans.storeModel()
+  else:
+    # instanciate k-means with no arguments
+    kmeans = KMeansAlgo()
+    # retrieve the model from the file
+    kmeans.retrieveModel()
+    
+
 
   # get the data from leap
   dataCollectionDuration = Config.get("data_gathering", "data_collection_duration")
@@ -178,8 +186,18 @@ def main():
   kmeans.report()
 
 if __name__ == "__main__":
+  # getting the arguments from the command line
+  parser = argparse.ArgumentParser(description='Hand sign recognition')
+  parser.add_argument('-t', default=False ,action='store_true', dest='train')
+
+  args = parser.parse_args()
+  # print args.train
+
+  # TODO: MAKE THIS BETTER !!!
+
   # load the training data
-  loadTrainingData("all-relative-data")
+  if args.train:
+    loadTrainingData("all-relative-data")
 
   # call the main function to get the data from the 
-  main()
+  main(args.train)

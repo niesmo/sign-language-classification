@@ -5,7 +5,7 @@ from sklearn.cluster import KMeans
 # from sklearn import datasets
 
 class KMeansAlgo:
-  def __init__(self, data, labels, clusterCount):
+  def __init__(self, data=[], labels=[], clusterCount=0):
     self.logger = logging.getLogger(self.__class__.__name__)
     self.logger.debug("Initializing")
 
