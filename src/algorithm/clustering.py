@@ -79,18 +79,21 @@ class KMeansAlgo:
 
     return self.results
 
-  def report(self):
+  def report(self, verbose=True):
     # print self.letterToLabelMap
     resultFrequency = collections.Counter(self.results)
 
-    print "MAP: ", self.letterToLabelMap
+    if verbose:
+      print "MAP: ", self.letterToLabelMap
 
     for letter in self.letterToLabelMap:
       label = self.letterToLabelMap[letter]
-      if resultFrequency.has_key(label):
+      if resultFrequency.has_key(label) and verbose:
         print letter + " -> " + str(resultFrequency[label] * 100 / float(len(self.testingData))) + "%"
 
-    print resultFrequency
+    if verbose:
+      print resultFrequency
+
     return resultFrequency
 
   def preProcess(self):

@@ -1,6 +1,7 @@
 SELECT
   a.id,
   a.lable,
+  a.attemptID,
   a.hand_sphere_radius,
   
   b.x 'palm_position_x', 

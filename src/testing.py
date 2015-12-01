@@ -3,6 +3,7 @@ import sys, os, inspect, logging, time
 import collections
 import ConfigParser
 import argparse
+import collections
 
 from algorithm.clustering import KMeansAlgo
 from data.dataCollectionTools import DataCollector
@@ -28,11 +29,15 @@ trainingDataLabels = []
 
 testingData = []
 testingDataLabels = []
+testingDataAttemptIds = []
+testingDataGroupedByAttemptId = {}
 
 
 def loadData(db, queryFilename):
   tempDataArr = []
   tempDataLabelArr = []
+  tempDataAttemptIdArr = []
+
 
   logger.debug("Openning the query file " + queryFilename)
 
@@ -63,12 +68,13 @@ def loadData(db, queryFilename):
   
   # getting the training data
   for row in rows:  
-    tempDataArr.append(list(row[2:]))
+    tempDataArr.append(list(row[3:]))
     tempDataLabelArr.append(row[1])
+    tempDataAttemptIdArr.append(row[2])
 
   print "Training Data Count: ", len(tempDataArr)
 
-  return tempDataArr, tempDataLabelArr
+  return tempDataArr, tempDataLabelArr, tempDataAttemptIdArr
 
 '''
 This function will take in as input an array of inputs and will trun those
@@ -172,19 +178,28 @@ def loadTestDataFromLeap():
   testingData = dataCollector.stop()
   testingData = preProcessTestingData(testingData)
 
-  print "************", len(testingData)
 
 def loadTestDataFromDb():
   global testingData
   global testingDataLabels
+  global testingDataAttemptIds
+  global testingDataGroupedByAttemptId
 
-  testingData, testingDataLabels = loadData('test.db', "all-relative-data")
+  testingData, testingDataLabels, testingDataAttemptIds = loadData('test.db', "all-relative-data")
 
+  for i, d in enumerate(testingData):
+    if not testingDataGroupedByAttemptId.has_key(testingDataAttemptIds[i]):
+      testingDataGroupedByAttemptId[testingDataAttemptIds[i]] = {
+        'label': testingDataLabels[i],
+        'data': []
+      }
 
+    testingDataGroupedByAttemptId[testingDataAttemptIds[i]]['data'].append(d)
 
 def main(args):
   global testingData
   
+  # if we are training the k-means
   if args.train:
     NUMBER_OF_CLUSTERS = 9
     kmeans = KMeansAlgo(trainingData, trainingDataLabels, NUMBER_OF_CLUSTERS)
@@ -194,12 +209,16 @@ def main(args):
     # store the model in the files
     kmeans.storeModel()
 
+  # if we are reading the k-means from the file
   else:
     # instanciate k-means with no arguments
     kmeans = KMeansAlgo()
     # retrieve the model from the file
     kmeans.retrieveModel()
 
+
+
+  # if we are getting the test data from the Leap
   if args.livedata:
     loadTestDataFromLeap()
 
@@ -209,10 +228,36 @@ def main(args):
     # show the report
     kmeans.report()
 
+  # if we are getting the data from the database
   else:
+    # stats variables
+    correctCount = 0
+    totalCount = 0
+
     loadTestDataFromDb()
 
-    print "**** WORK IN PROGRESS ****"
+    for attemptId in testingDataGroupedByAttemptId:
+      letter = testingDataGroupedByAttemptId[attemptId]['label']
+
+      # do the actual testing
+      kmeans.test(testingDataGroupedByAttemptId[attemptId]['data'])
+
+      # pring some reports
+      res = kmeans.report(False)
+
+      # find the letter for the label
+      label = kmeans.letterToLabelMap[letter]
+
+      if res.has_key(label):
+        correctCount += 1
+      else:
+        print "****Error letter: ", letter , " != "
+
+
+      totalCount += 1
+      
+    print "Total Correct Count: ", correctCount
+    print "Total Count: ", totalCount
 
 
 if __name__ == "__main__":
@@ -229,7 +274,7 @@ if __name__ == "__main__":
 
   # load the training data
   if args.train:
-    trainingData, trainingDataLabels = loadData("data.db", "all-relative-data")
+    trainingData, trainingDataLabels, attemptIds = loadData("data.db", "all-relative-data")
 
   # call the main function to get the data from the 
   main(args)
