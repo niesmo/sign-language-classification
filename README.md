@@ -24,6 +24,16 @@ python data-gathering.py --db <DB_FILE_NAME> --duration <DATA_COLLECTION_DURATIO
 DB_FILE_NAME must be already initialized using the `initialize.py` script which can be run using this command:
 python initialize.py -d <DB_FILE_NAME>
 
+## Running Testing
+In order to run the program for testing you can use the `testing.py` script.
+python testing.py -t --live
+
+-t        Will train the algorithm again and stores the results on disk
+          if -t is not specified, it will read from the disk
+
+--live    will read the data from the leap motion instead of the database.
+          if --live is not specified, it will read from the test.db database
+
 
 ##Gathering Data
   1. Nima (each letter twice) (Nov 7 around 3-4 pm)
