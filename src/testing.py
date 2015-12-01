@@ -144,7 +144,7 @@ def preProcessTestingData(data):
 
 def main(isTraining):
   if isTraining:
-    NUMBER_OF_CLUSTERS = 10
+    NUMBER_OF_CLUSTERS = 9
     kmeans = KMeansAlgo(trainingData, trainingDataLabels, NUMBER_OF_CLUSTERS)
 
     # cluster the training data
