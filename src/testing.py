@@ -251,7 +251,7 @@ def main(args):
       if res.has_key(label):
         correctCount += 1
       else:
-        print "****Error letter: ", letter , " != "
+        print "Error on recognizing letter", letter
 
 
       totalCount += 1
@@ -265,10 +265,8 @@ if __name__ == "__main__":
   parser = argparse.ArgumentParser(description='Hand sign recognition')
   parser.add_argument('-t', default=False ,action='store_true', dest='train')
   parser.add_argument('--live', default=False ,action='store_true', dest='livedata')
-
-
+  
   args = parser.parse_args()
-  # print args.train
 
   # TODO: MAKE THIS BETTER !!!
 
