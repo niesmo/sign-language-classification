@@ -26,9 +26,14 @@ kmean = {}
 trainingData = []
 trainingDataLabels = []
 
+testingData = []
+testingDataLabels = []
 
 
-def loadTrainingData(queryFilename):
+def loadData(db, queryFilename):
+  tempDataArr = []
+  tempDataLabelArr = []
+
   logger.debug("Openning the query file " + queryFilename)
 
   # getting the config for confidency level
@@ -47,7 +52,7 @@ def loadTrainingData(queryFilename):
   logger.debug("Openning the database connection")
 
   # query the data base
-  connection = lite.connect(db_dir + "/data.db")
+  connection = lite.connect(db_dir + "/" + db)
   with connection:
     cursor = connection.cursor()
 
@@ -58,10 +63,12 @@ def loadTrainingData(queryFilename):
   
   # getting the training data
   for row in rows:  
-    trainingData.append(list(row[2:]))
-    trainingDataLabels.append(row[1])
+    tempDataArr.append(list(row[2:]))
+    tempDataLabelArr.append(row[1])
 
-  print "Training Data Count: ", len(trainingData)
+  print "Training Data Count: ", len(tempDataArr)
+
+  return tempDataArr, tempDataLabelArr
 
 '''
 This function will take in as input an array of inputs and will trun those
@@ -142,23 +149,9 @@ def preProcessTestingData(data):
     
   return preprocessedData
 
-def main(isTraining):
-  if isTraining:
-    NUMBER_OF_CLUSTERS = 9
-    kmeans = KMeansAlgo(trainingData, trainingDataLabels, NUMBER_OF_CLUSTERS)
-
-    # cluster the training data
-    kmeans.cluster()
-    # store the model in the files
-    kmeans.storeModel()
-
-  else:
-    # instanciate k-means with no arguments
-    kmeans = KMeansAlgo()
-    # retrieve the model from the file
-    kmeans.retrieveModel()
-    
-
+def loadTestDataFromLeap():
+  # setting the testing data as global variable
+  global testingData
 
   # get the data from leap
   dataCollectionDuration = Config.get("data_gathering", "data_collection_duration")
@@ -179,16 +172,55 @@ def main(isTraining):
   testingData = dataCollector.stop()
   testingData = preProcessTestingData(testingData)
 
-  # test the data from Leap 
-  kmeans.test(testingData)
+  print "************", len(testingData)
 
-  # show the report
-  kmeans.report()
+def loadTestDataFromDb():
+  global testingData
+  global testingDataLabels
+
+  testingData, testingDataLabels = loadData('test.db', "all-relative-data")
+
+
+
+def main(args):
+  global testingData
+  
+  if args.train:
+    NUMBER_OF_CLUSTERS = 9
+    kmeans = KMeansAlgo(trainingData, trainingDataLabels, NUMBER_OF_CLUSTERS)
+
+    # cluster the training data
+    kmeans.cluster()
+    # store the model in the files
+    kmeans.storeModel()
+
+  else:
+    # instanciate k-means with no arguments
+    kmeans = KMeansAlgo()
+    # retrieve the model from the file
+    kmeans.retrieveModel()
+
+  if args.livedata:
+    loadTestDataFromLeap()
+
+    # test the data from Leap
+    kmeans.test(testingData)
+
+    # show the report
+    kmeans.report()
+
+  else:
+    loadTestDataFromDb()
+
+    print "**** WORK IN PROGRESS ****"
+
 
 if __name__ == "__main__":
   # getting the arguments from the command line
   parser = argparse.ArgumentParser(description='Hand sign recognition')
   parser.add_argument('-t', default=False ,action='store_true', dest='train')
+  parser.add_argument('--live', default=False ,action='store_true', dest='livedata')
+
 
   args = parser.parse_args()
   # print args.train
@@ -197,7 +229,7 @@ if __name__ == "__main__":
 
   # load the training data
   if args.train:
-    loadTrainingData("all-relative-data")
+    trainingData, trainingDataLabels = loadData("data.db", "all-relative-data")
 
   # call the main function to get the data from the 
-  main(args.train)
+  main(args)
