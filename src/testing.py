@@ -4,9 +4,11 @@ import collections
 import ConfigParser
 import argparse
 import collections
+from Tkinter import Tk
 
 from algorithm.clustering import KMeansAlgo
 from data.dataCollectionTools import DataCollector
+from ui.gui import ResultsWindow
 
 # get the src and other directories
 curr_dir = os.path.dirname(inspect.getfile(inspect.currentframe()))
@@ -201,11 +203,16 @@ def main(args):
   
   # if we are training the k-means
   if args.train:
+    # load the training data
+    trainingData, trainingDataLabels, attemptIds = loadData("data.db", "all-relative-data")
+
+
     NUMBER_OF_CLUSTERS = 9
     kmeans = KMeansAlgo(trainingData, trainingDataLabels, NUMBER_OF_CLUSTERS)
 
     # cluster the training data
     kmeans.cluster()
+
     # store the model in the files
     kmeans.storeModel()
 
@@ -220,13 +227,31 @@ def main(args):
 
   # if we are getting the test data from the Leap
   if args.livedata:
+    # get test data from the leap
     loadTestDataFromLeap()
 
     # test the data from Leap
     kmeans.test(testingData)
 
     # show the report
-    kmeans.report()
+    report = kmeans.report()
+    
+    # pick the most probable letter
+    tempMax = -1
+    for label in report:
+      if report[label] > tempMax:
+        inferredLabel = label
+        tempMax = report[label]
+
+
+    for letter in kmeans.letterToLabelMap:
+      if inferredLabel == kmeans.letterToLabelMap[letter]:
+        inferredLetter = letter
+        break
+
+    if args.gui:
+      # initialized the GUI
+      initializeGui(letter)
 
   # if we are getting the data from the database
   else:
@@ -260,19 +285,23 @@ def main(args):
     print "Total Count: ", totalCount
 
 
+def initializeGui(letter):
+  root = Tk()
+  ex = ResultsWindow(root, letter)
+  root.geometry("420x250+300+300")
+  root.mainloop()
+
+
 if __name__ == "__main__":
   # getting the arguments from the command line
   parser = argparse.ArgumentParser(description='Hand sign recognition')
   parser.add_argument('-t', default=False ,action='store_true', dest='train')
   parser.add_argument('--live', default=False ,action='store_true', dest='livedata')
+  parser.add_argument('--gui', default=False ,action='store_true', dest='gui')
   
   args = parser.parse_args()
 
   # TODO: MAKE THIS BETTER !!!
-
-  # load the training data
-  if args.train:
-    trainingData, trainingDataLabels, attemptIds = loadData("data.db", "all-relative-data")
 
   # call the main function to get the data from the 
   main(args)
