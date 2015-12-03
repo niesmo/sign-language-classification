@@ -23,11 +23,5 @@ class ResultsWindow(Frame):
     labelStrVar = StringVar()
     label = Label( self.parent, textvariable=labelStrVar, font=font)
 
-    labelStrVar.set("K-Means"+"\n"+self.lettersToDisplay["Kmeans"]+"\n")
-    label.pack()
-
-    labelStrVarNN = StringVar()
-    labelNN = Label( self.parent, textvariable=labelStrVarNN, font=font)
-
-    labelStrVarNN.set("Neural Nets \n"+self.lettersToDisplay["NN"])
-    labelNN.pack()
+    labelStrVar.set("K-Means"+"\n"+self.lettersToDisplay["Kmeans"] + "\n" + ('-'*50) + '\n'+ 'Neural Nets' + '\n' + self.lettersToDisplay["NN"])
+    label.place(relx=.5, rely=.5, anchor="c")

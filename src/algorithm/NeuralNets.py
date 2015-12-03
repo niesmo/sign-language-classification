@@ -161,12 +161,15 @@ class NeuralNets:
 
 		return trainer, net
 
-	def trainModel():
-		nn = NeuralNets()
-		trainer, net = nn.train("train_all.csv",9,[50,50],1)
-		nn.test("test_all.csv",9,trainer,net)
-		nn.pickleModel(trainer,net)
-		return
+def trainModel():
+	nn = NeuralNets()
+	trainer, net = nn.train("train_all.csv",9,[50,50],1)
+	nn.test("test_all.csv",9,trainer,net)
+	nn.pickleModel(trainer,net)
+	return
+
+if __name__ == "__main__":
+	trainModel()
 
 
 
