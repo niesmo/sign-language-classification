@@ -134,4 +134,9 @@ class KMeansAlgo:
 
     self.kmeans = pickle.load(pickleFileKmeans)
     self.letterToLabelMap = pickle.load(pickleFileLetterToLabel)
+
+    # closing the files
+    pickleFileKmeans.close()
+    pickleFileLetterToLabel.close()
+  
   

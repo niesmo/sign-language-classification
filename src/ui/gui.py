@@ -6,10 +6,10 @@ import tkFont
 
 class ResultsWindow(Frame):
 
-  def __init__(self, parent, letter):
+  def __init__(self, parent, results):
     Frame.__init__(self, parent)
     
-    self.letterToDisplay = letter
+    self.lettersToDisplay = results
     self.parent = parent
     self.initUI()
 
@@ -18,10 +18,16 @@ class ResultsWindow(Frame):
   def initUI(self):
     self.parent.title("Hand Sign Recognition")
 
-    font = tkFont.Font(family="Helvetica", size=200)
+    font = tkFont.Font(family="Helvetica", size=100)
 
-    self.labelStrVar = StringVar()
-    self.label = Label( self.parent, textvariable=self.labelStrVar, font=font)
+    labelStrVar = StringVar()
+    label = Label( self.parent, textvariable=labelStrVar, font=font)
 
-    self.labelStrVar.set(self.letterToDisplay)
-    self.label.pack()
+    labelStrVar.set("K-Means"+"\n"+self.lettersToDisplay["Kmeans"]+"\n")
+    label.pack()
+
+    labelStrVarNN = StringVar()
+    labelNN = Label( self.parent, textvariable=labelStrVarNN, font=font)
+
+    labelStrVarNN.set("Neural Nets \n"+self.lettersToDisplay["NN"])
+    labelNN.pack()
