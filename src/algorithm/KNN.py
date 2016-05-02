@@ -66,11 +66,11 @@ class KNN:
 		return classifier
 
 	def train(self):
-		X_train, labels_train = load_training_data()
-		X_test, labels_test = load_testing_data()
+		X_train, labels_train = self.load_training_data()
+		X_test, labels_test = self.load_testing_data()
 		clf = KNeighborsClassifier(n_neighbors=3)
 		clf = clf.fit(X_train,labels_train)
-		pickleModel(clf)
+		self.pickleModel(clf)
 
 	def livetest(self,data):
 		clf = self.unpickleModel()
