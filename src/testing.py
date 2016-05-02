@@ -8,6 +8,7 @@ from Tkinter import Tk
 
 from algorithm.clustering import KMeansAlgo
 from algorithm.NeuralNets import NeuralNets
+from algorithm.KNN import KNN
 from data.dataCollectionTools import DataCollector
 from ui.gui import ResultsWindow
 
@@ -202,6 +203,7 @@ def loadTestDataFromDb():
 def main(args):
   global testingData
   nn = NeuralNets()
+  knn = KNN()
   
   # if we are training the k-means
   if args.train:
@@ -235,7 +237,7 @@ def main(args):
     # test the data from Leap
     kmeans.test(testingData)
     nnPredictedLetter = nn.livetest(testingData)
-    
+    knnPredictedLetter = knn.livetest(testingData)
     # show the report
     report = kmeans.report()
     
@@ -254,7 +256,7 @@ def main(args):
 
     if args.gui:
       # initialized the GUI
-      initializeGui({"Kmeans":letter, "NN":nnPredictedLetter})
+      initializeGui({"Kmeans":letter, "NN":nnPredictedLetter, "KNN":knnPredictedLetter})
 
   # if we are getting the data from the database
   else:
