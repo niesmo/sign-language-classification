@@ -18,10 +18,10 @@ class ResultsWindow(Frame):
   def initUI(self):
     self.parent.title("Hand Sign Recognition")
 
-    font = tkFont.Font(family="Helvetica", size=100)
+    font = tkFont.Font(family="Helvetica", size=50)
 
     labelStrVar = StringVar()
     label = Label( self.parent, textvariable=labelStrVar, font=font)
 
-    labelStrVar.set("K-Means"+"\n"+self.lettersToDisplay["Kmeans"] + "\n" + ('-'*50) + '\n'+ 'Neural Nets' + '\n' + self.lettersToDisplay["NN"])
+    labelStrVar.set("K-Means"+"\n"+self.lettersToDisplay["Kmeans"] + "\n" + ('-'*50) + '\n'+ 'Neural Nets' + '\n' + self.lettersToDisplay["NN"]+ "\n" + ('-'*50) + '\n'+ 'KNN' + '\n' + self.lettersToDisplay["KNN"])
     label.place(relx=.5, rely=.5, anchor="c")
