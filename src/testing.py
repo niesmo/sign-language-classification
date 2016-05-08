@@ -9,6 +9,7 @@ from Tkinter import Tk
 from algorithm.clustering import KMeansAlgo
 from algorithm.NeuralNets import NeuralNets
 from algorithm.KNN import KNN
+from algorithm.RandomForest import RandomForest
 from data.dataCollectionTools import DataCollector
 from ui.gui import ResultsWindow
 
@@ -204,6 +205,7 @@ def main(args):
   global testingData
   nn = NeuralNets()
   knn = KNN()
+  rf = RandomForest()
   
   # if we are training the k-means
   if args.train:
@@ -238,6 +240,7 @@ def main(args):
     kmeans.test(testingData)
     nnPredictedLetter = nn.livetest(testingData)
     knnPredictedLetter = knn.livetest(testingData)
+    rfPredictedLetter = rf.livetest(testingData)
     # show the report
     report = kmeans.report()
     
@@ -256,7 +259,7 @@ def main(args):
 
     if args.gui:
       # initialized the GUI
-      initializeGui({"Kmeans":letter, "NN":nnPredictedLetter, "KNN":knnPredictedLetter})
+      initializeGui({"Kmeans":letter, "NN":nnPredictedLetter, "KNN":knnPredictedLetter, "RF":rfPredictedLetter})
 
   # if we are getting the data from the database
   else:

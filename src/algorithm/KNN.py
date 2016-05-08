@@ -76,3 +76,5 @@ class KNN:
 		clf = self.unpickleModel()
 		print "\nKNN",clf.predict(np.asarray(data))[0]
 		return clf.predict(np.asarray(data))[0]
+
+# KNN().train()
